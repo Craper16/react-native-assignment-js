@@ -25,13 +25,14 @@ const LoginScreen = () => {
   const [signInUser, {data, isLoading, error, isError, isSuccess}] =
     useSignInUserMutation();
 
+
   const LoginUser = async () => {
-    await storage.set('accessToken', data?.accessToken);
-    dispatch(setUser({accessToken: data?.accessToken}));
+    await storage.set('accessToken', data.accessToken);
+    dispatch(setUser({accessToken: data.accessToken}));
   };
 
   if (isSuccess) {
-    LoginUser();
+   LoginUser();
   }
 
   return (

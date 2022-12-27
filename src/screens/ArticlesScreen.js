@@ -27,12 +27,12 @@ const ArticlesScreen = () => {
 
   const dispatch = useDispatch();
 
+  const {data, error, isError, isFetching, currentData} =
+    useFetchArticlesQuery(page);
+
   const {articlesData, filteredData, isEnd} = useSelector(
     state => state.articles,
   );
-
-  const {data, error, isError, isFetching, currentData} =
-    useFetchArticlesQuery(page);
 
   useEffect(() => {
     if (data?.response?.docs.length > 0) {
@@ -43,6 +43,8 @@ const ArticlesScreen = () => {
   const handleLoadMore = () => {
     if (!isEnd && !isFetching) {
       return setPage(page + 1);
+    } else {
+      return;
     }
   };
 
@@ -69,9 +71,16 @@ const ArticlesScreen = () => {
     setSearch('');
   };
 
-  const handleLogout = () => {
-    storage.clearAll();
-    dispatch(defaultState());
+  const LogoutUser = async () => {
+    Promise.resolve(storage.clearAll())
+      .then(dispatch(defaultArticles()))
+      .then(dispatch(defaultState()));
+    // await storage.clearAll();
+    // dispatch(defaultArticles() && defaultState());
+  };
+
+  const handleLogout = async () => {
+    LogoutUser();
   };
 
   return (

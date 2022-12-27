@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
   articlesData: [],
   filteredData: [],
-  isEnd: false,
+  isEnd: false
 };
 
 const articlesSlice = createSlice({
@@ -12,12 +12,12 @@ const articlesSlice = createSlice({
   reducers: {
     setArticles: (state, action) => {
       state.articlesData = [...state.articlesData, ...action.payload.data];
-      state.isEnd = action.payload.data.length >= 0 ? false : true;
+      state.isEnd = action.payload.data?.docs?.length === 0;
     },
     defaultArticles: state => {
-      state.artiiclesData = [];
-      state.filteredArticles = [];
-      state.isEnd = false;
+      state.articlesData = [];
+      state.filteredData = [];
+      isEnd = false;
     },
     resetArticles: (state, action) => {
       state.articlesData = action.payload.data;
