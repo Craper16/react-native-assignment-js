@@ -12,7 +12,7 @@ const articlesSlice = createSlice({
   reducers: {
     setArticles: (state, action) => {
       state.articlesData = [...state.articlesData, ...action.payload.data];
-      state.isEnd = action.payload.data?.docs?.length === 0;
+      state.isEnd = action.payload.page === 2;
     },
     defaultArticles: state => {
       state.articlesData = [];

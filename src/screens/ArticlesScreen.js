@@ -36,7 +36,7 @@ const ArticlesScreen = () => {
 
   useEffect(() => {
     if (data?.response?.docs.length > 0) {
-      dispatch(setArticles({data: data?.response?.docs}));
+      dispatch(setArticles({data: data?.response?.docs, page: page}));
     }
   }, [dispatch, data]);
 
