@@ -20,7 +20,7 @@ const articlesSlice = createSlice({
       isEnd = false;
     },
     resetArticles: (state, action) => {
-      state.articlesData = action.payload.data;
+      state.articlesData = [];
     },
     filterArticles: (state, action) => {
       state.filteredData = state.articlesData.filter(

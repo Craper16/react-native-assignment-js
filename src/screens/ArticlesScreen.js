@@ -34,6 +34,12 @@ const ArticlesScreen = () => {
   );
 
   useEffect(() => {
+    if (articlesData === []) {
+      dispatch(setArticles({data: data?.response?.docs, page: 0}));
+    }
+  }, [dispatch, data, page]);
+
+  useEffect(() => {
     if (data?.response?.docs.length > 0) {
       dispatch(setArticles({data: data?.response?.docs, page: page}));
     }
@@ -49,14 +55,15 @@ const ArticlesScreen = () => {
 
   const pullDownToRefresh = () => {
     setIsRefreshing(true);
-    if (page === 0) {
-      dispatch(resetArticles({data: data?.response?.docs}));
+    if (page !== 0) {
+      setPage(0);
+      dispatch(resetArticles());
     }
+
     setIsRefreshing(false);
   };
 
   const handleRefresh = async () => {
-    await setPage(0);
     return pullDownToRefresh();
   };
 
