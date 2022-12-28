@@ -27,8 +27,7 @@ const ArticlesScreen = () => {
 
   const dispatch = useDispatch();
 
-  const {data, error, isError, isFetching, currentData} =
-    useFetchArticlesQuery(page);
+  const {data, error, isError, isFetching} = useFetchArticlesQuery(page);
 
   const {articlesData, filteredData, isEnd} = useSelector(
     state => state.articles,
@@ -48,17 +47,17 @@ const ArticlesScreen = () => {
     }
   };
 
-  const pullDownToRefresh = useCallback(async () => {
+  const pullDownToRefresh = () => {
     setIsRefreshing(true);
-    await setPage(0);
-    if (data?.response?.docs !== currentData) {
+    if (page === 0) {
       dispatch(resetArticles({data: data?.response?.docs}));
-      setIsRefreshing(false);
     }
-  });
+    setIsRefreshing(false);
+  };
 
-  const handleRefresh = () => {
-    pullDownToRefresh();
+  const handleRefresh = async () => {
+    await setPage(0);
+    return pullDownToRefresh();
   };
 
   const handleSearch = text => {
