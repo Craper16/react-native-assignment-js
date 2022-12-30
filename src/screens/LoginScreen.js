@@ -17,22 +17,21 @@ import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 const loginValidationSchema = yup.object().shape({
   username: yup.string().required('Username must not be empty'),
-  password: yup.string().required('Password must not be empty.'),
+  password: yup.string().required('Password must not be empty'),
 });
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
-  const [signInUser, {data, isLoading, error, isError, isSuccess}] =
+  const [signInUser, {data, isLoading, error, isError, isSuccess, status}] =
     useSignInUserMutation();
 
-
   const LoginUser = async () => {
-    await storage.set('accessToken', data.accessToken);
-    dispatch(setUser({accessToken: data.accessToken}));
+    await storage.set('accessToken', data?.accessToken);
+    dispatch(setUser({accessToken: data?.accessToken}));
   };
 
   if (isSuccess) {
-   LoginUser();
+    LoginUser();
   }
 
   return (
@@ -62,6 +61,7 @@ const LoginScreen = () => {
               <ScrollView>
                 <View style={styles.textInputContainer}>
                   <TextInput
+                    testID="username"
                     autoCapitalize={false}
                     textColor="#8A2BE2"
                     onChangeText={handleChange('username')}
@@ -77,6 +77,7 @@ const LoginScreen = () => {
                 </View>
                 <View style={styles.textInputContainer}>
                   <TextInput
+                    testID="password"
                     autoCapitalize={false}
                     textColor="#8A2BE2"
                     onChangeText={handleChange('password')}
@@ -93,7 +94,8 @@ const LoginScreen = () => {
                 </View>
                 <View style={styles.actions}>
                   <Button
-                    disabled={!isValid || isLoading}
+                    testID="loginButton"
+                    disabled={!isValid || isLoading || status === 'pending'}
                     onPress={handleSubmit}
                     mode="elevated"
                     loading={isLoading}>
@@ -147,6 +149,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     marginTop: 5,
+    color: 'red',
+  },
+  apiErrorsContainer: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  apiErrors: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 7,
     color: 'red',
   },
   apiErrorsContainer: {
