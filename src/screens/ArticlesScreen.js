@@ -43,7 +43,7 @@ const ArticlesScreen = () => {
     if (data?.response?.docs.length > 0) {
       dispatch(setArticles({data: data?.response?.docs, page: page}));
     }
-  }, [dispatch, data]);
+  }, [dispatch, data, page]);
 
   const handleLoadMore = () => {
     if (!isEnd && !isFetching) {
